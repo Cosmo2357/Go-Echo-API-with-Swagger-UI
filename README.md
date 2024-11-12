@@ -64,7 +64,7 @@ The server will start at `http://localhost:8080`. You can access the Swagger UI 
 ```
 http://localhost:8080/swagger/index.html
 ```
-
+![alt text](assetsForReadme/swagger.png)
 ## API Endpoints
 
 - `GET /users/:id` - Retrieve user details by ID
