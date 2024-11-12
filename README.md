@@ -1,5 +1,5 @@
+![alt text](assetsForReadme/6.png)
 # Go Echo API with Swagger UI 
-
 This is a simple REST API built with Go using the Echo framework and Swagger UI for API documentation.
 
 ## Project Structure
