@@ -1,0 +1,57 @@
+name: Deploy Swagger Documentation to S3
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Go environment
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.22.0'
+
+      # Step 3: Install Swag for generating Swagger documentation
+      - name: Install Swag
+        run: |
+          go install github.com/swaggo/swag/cmd/swag@latest
+          echo "$HOME/go/bin" >> $GITHUB_PATH
+
+      # Step 4: Generate Swagger documentation
+      - name: Generate Swagger Docs
+        run: |
+          swag init -g cmd/main.go -o docs/swagger-ui
+
+      # Step 5: Upload Swagger JSON to S3
+      - name: Upload Swagger JSON to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          # Set S3 bucket based on branch
+          if [ "${GITHUB_REF}" == "refs/heads/main" ]; then
+            S3_BUCKET="your-prod-s3-bucket-name"
+          elif [ "${GITHUB_REF}" == "refs/heads/dev" ]; then
+            S3_BUCKET="your-dev-s3-bucket-name"
+          else
+            echo "Unsupported branch"
+            exit 1
+          fi
+
+          # Install AWS CLI
+          sudo apt-get update
+          sudo apt-get install -y awscli
+
+          # Upload the Swagger JSON file to the specified S3 bucket
+          aws s3 cp docs/swagger-ui/swagger.json s3://$S3_BUCKET/swagger.json --acl private
