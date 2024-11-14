@@ -2,7 +2,7 @@
 # Go Echo API with Swagger UI with GitHub Actions
 This is a simple REST API built with Go using the Echo framework and Swagger UI for API documentation.
 
-## Project Structure
+## Project Structure 
 
 ```
 myapp/
