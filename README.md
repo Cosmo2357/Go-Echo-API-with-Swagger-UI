@@ -130,6 +130,20 @@ ui.initOAuth({
 
 https://github.com/jellydn/next-swagger-doc
 
+or Hono with Oauth or basic auth
+
+```javascript
+import { Hono } from 'hono'
+import { swaggerUI } from '@hono/swagger-ui'
+
+const app = new Hono()
+
+// Use the middleware to serve Swagger UI at /ui
+app.get('/ui', swaggerUI({ url: '/doc' }))
+
+export default app
+```
+
 You can specify the backend server in main.go. Then it will be written in swagger.json or swagger.And swagger UI will user the backend server that is written in swagger.yaml or json.
 
 ```go
