@@ -133,6 +133,13 @@ https://github.com/jellydn/next-swagger-doc
 or Hono with Oauth or basic auth
 
 ```javascript
+$ npm create hono@latest my-app
+// checke here for the installation https://hono.dev/docs/getting-started/basic
+$ npm run dev
+// deploy to Cloudflare Workers. easy to deploy to other services. just check doc
+$ npm run deploy
+
+# index.js
 import { Hono } from 'hono'
 import { swaggerUI } from '@hono/swagger-ui'
 
@@ -142,6 +149,8 @@ const app = new Hono()
 app.get('/ui', swaggerUI({ url: '/doc' }))
 
 export default app
+
+
 ```
 
 You can specify the backend server in main.go. Then it will be written in swagger.json or swagger.And swagger UI will user the backend server that is written in swagger.yaml or json.
